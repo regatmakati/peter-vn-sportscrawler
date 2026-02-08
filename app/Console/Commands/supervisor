@@ -1,0 +1,137 @@
+##################
+#######足球#######
+##################
+[program:footballTimelyList]
+process_name=footballTimelyList
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballTask:handle --action=timelyList
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballTimelyList-supervisor.log
+
+[program:footballSchedule]
+process_name=footballSchedule
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballTask:handle --action=schedule
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballSchedule-supervisor.log
+
+[program:footballResult]
+process_name=footballResult
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballTask:handle --action=result
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballResult-supervisor.log
+
+[program:footballLineUp]
+process_name=footballLineUp
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballTask:handle --action=lineUp
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballLineUp-supervisor.log
+
+[program:footballLiveMatchData]
+process_name=footballLiveMatchData
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballTask:handle --action=liveMatchData
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballLiveMatchData-supervisor.log
+
+
+##################
+#######篮球#######
+##################
+[program:basketballTimelyList]
+process_name=basketballTimelyList
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballTask:handle --action=timelyList
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballTimelyList-supervisor.log
+
+[program:basketballSchedule]
+process_name=basketballSchedule
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballTask:handle --action=schedule
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballSchedule-supervisor.log
+
+[program:basketballResult]
+process_name=basketballResult
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballTask:handle --action=result
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballResult-supervisor.log
+
+##################
+#######直播#######
+##################
+[program:LiveLive]
+process_name=LiveLive
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan LiveTask:handle --action=live
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/LiveLive-supervisor.log
+
+[program:VideoUpdate]
+process_name=VideoUpdate
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan VideoTask:handle --action=update
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/VideoUpdate-supervisor.log
+
+[program:DeleteLive]
+process_name=DeleteLive
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan LiveTask:handle --action=deleteLive
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/DeleteLive-supervisor.log
+
+#[program:GetLiveShot]
+#process_name=GetLiveShot
+#command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan LiveTask:handle --action=getLiveShot
+#autostart=true
+#autorestart=true
+#user=root
+#redirect_stderr=true
+#stdout_logfile=/data/wwwlogs/GetLiveShot-supervisor.log
+
+
+[program:PushThirdLive]
+process_name=PushThirdLive
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan LiveTask:handle --action=pushThirdLive
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/PushThirdLive-supervisor.log
+
+
+[program:updateDynamic]
+process_name=updateDynamic
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan DynamicTask:handle --action=updateDynamic
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/updateDynamic-supervisor.log

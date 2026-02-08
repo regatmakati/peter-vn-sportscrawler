@@ -1,0 +1,11 @@
+--2022-07-04 13:50:31--  https://open.sportnanoapi.com/api/sports/basketball/match/detail_live?user=bite
+Resolving open.sportnanoapi.com (open.sportnanoapi.com)... 118.31.127.119
+Connecting to open.sportnanoapi.com (open.sportnanoapi.com)|118.31.127.119|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [application/json]
+Saving to: ‘detail_live?user=bite’
+
+detail_live?user=bite                                       [<=>                                                                                                                             ]       0  --.-KB/s               detail_live?user=bite                                       [ <=>                                                                                                                            ]      57  --.-KB/s    in 0s      
+
+2022-07-04 13:50:41 (35.5 MB/s) - ‘detail_live?user=bite’ saved [57]
+

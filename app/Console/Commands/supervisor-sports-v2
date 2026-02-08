@@ -1,0 +1,186 @@
+##################
+#######足球#######
+##################
+[program:footballMatchBeforeAfter15V2]
+process_name=footballMatchBeforeAfter15V2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=matchBeforeAfter15
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballMatchBeforeAfter15V2-supervisor.log
+
+[program:footballMatchLiveV2]
+process_name=footballMatchLiveV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=matchLive
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballMatchLiveV2-supervisor.log
+
+[program:footballCompetitionV2]
+process_name=footballCompetitionV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=competition
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballCompetitionV2-supervisor.log
+
+[program:footballSeasonV2]
+process_name=footballSeasonV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=season
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballSeasonV2-supervisor.log
+
+[program:footballTeamV2]
+process_name=footballTeamV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=team
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballTeamV2-supervisor.log
+
+[program:footballPlayerV2]
+process_name=footballPlayerV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=player
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballPlayerV2-supervisor.log
+
+[program:footballManagerV2]
+process_name=footballManagerV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=manager
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballManagerV2-supervisor.log
+
+[program:footballRefereeV2]
+process_name=footballRefereeV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=referee
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballRefereeV2-supervisor.log
+
+[program:footballVenueV2]
+process_name=footballVenueV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=venue
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballVenueV2-supervisor.log
+
+[program:footballLiveUrlV2]
+process_name=footballLiveUrlV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=liveUrl
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballLiveUrlV2-supervisor.log
+
+[program:footballDeletedV2]
+process_name=footballDeletedV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan footballV2Task:handle --action=deleted
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/footballDeletedV2-supervisor.log
+
+
+##################
+#######篮球#######
+##################
+[program:basketballMatchBeforeAfter15V2]
+process_name=basketballMatchBeforeAfter15V2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=matchBeforeAfter15
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballMatchBeforeAfter15V2-supervisor.log
+
+[program:basketballMatchLiveV2]
+process_name=basketballMatchLiveV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=matchLive
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballMatchLiveV2-supervisor.log
+
+[program:basketballCompetitionV2]
+process_name=basketballCompetitionV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=competition
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballCompetitionV2-supervisor.log
+
+[program:basketballSeasonV2]
+process_name=basketballSeasonV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=season
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballSeasonV2-supervisor.log
+
+[program:basketballTeamV2]
+process_name=basketballTeamV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=team
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballTeamV2-supervisor.log
+
+[program:basketballPlayerV2]
+process_name=basketballPlayerV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=player
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballPlayerV2-supervisor.log
+
+[program:basketballVenueV2]
+process_name=basketballVenueV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=venue
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballVenueV2-supervisor.log
+
+[program:basketballLiveUrlV2]
+process_name=basketballLiveUrlV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=liveUrl
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballLiveUrlV2-supervisor.log
+
+[program:basketballDeletedV2]
+process_name=basketballDeletedV2
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan basketballV2Task:handle --action=deleted
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/basketballDeletedV2-supervisor.log

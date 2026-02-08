@@ -4,35 +4,30 @@ namespace App\Console\Commands;
 
 use App\Helpers\Helper;
 use App\Models\BaseModel;
-use App\Models\Sports\SportsFootballCategoryModel;
-use App\Models\Sports\SportsFootballCompensationModel;
-use App\Models\Sports\SportsFootballCompetitionModel;
-use App\Models\Sports\SportsFootballCompetitionRuleModel;
-use App\Models\Sports\SportsFootballCountryModel;
-use App\Models\Sports\SportsFootballHonorModel;
-use App\Models\Sports\SportsFootballInjuryModel;
-use App\Models\Sports\SportsFootballManagerModel;
-use App\Models\Sports\SportsFootballMatchAnalysisModel;
-use App\Models\Sports\SportsFootballMatchLineupModel;
-use App\Models\Sports\SportsFootballMatchLiveModel;
-use App\Models\Sports\SportsFootballMatchModel;
-use App\Models\Sports\SportsFootballMatchVideoCollectionModel;
-use App\Models\Sports\SportsFootballPlayerModel;
-use App\Models\Sports\SportsFootballRefereeModel;
-use App\Models\Sports\SportsFootballSeasonModel;
-use App\Models\Sports\SportsFootballTeamModel;
-use App\Models\Sports\SportsFootballVenueModel;
+use App\Models\Sports\SportsBasketballCategoryModel;
+use App\Models\Sports\SportsBasketballCompensationModel;
+use App\Models\Sports\SportsBasketballCompetitionModel;
+use App\Models\Sports\SportsBasketballCountryModel;
+use App\Models\Sports\SportsBasketballHonorModel;
+use App\Models\Sports\SportsBasketballInjuryModel;
+use App\Models\Sports\SportsBasketballMatchAnalysisModel;
+use App\Models\Sports\SportsBasketballMatchLiveModel;
+use App\Models\Sports\SportsBasketballMatchModel;
+use App\Models\Sports\SportsBasketballPlayerModel;
+use App\Models\Sports\SportsBasketballSeasonModel;
+use App\Models\Sports\SportsBasketballTeamModel;
+use App\Models\Sports\SportsBasketballVenueModel;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
-class FootballV2Task extends Command
+class BasketballV2Task extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'footballV2Task:handle {--action=} {--debug=}';
+    protected $signature = 'basketballV2Task:handle {--action=} {--debug=}';
 
     /**
      * The console command description.
@@ -75,10 +70,6 @@ class FootballV2Task extends Command
                         $err = "赛事任务异常！";
                         self::competition();
                         break;
-                    case 'competitionRule':
-                        $err = "赛制任务异常！";
-                        self::competitionRule();
-                        break;
                     case 'team':
                         $err = "队伍任务异常！";
                         self::team();
@@ -86,14 +77,6 @@ class FootballV2Task extends Command
                     case 'player':
                         $err = "球员任务异常！";
                         self::player();
-                        break;
-                    case 'manager':
-                        $err = "教练任务异常！";
-                        self::manager();
-                        break;
-                    case 'referee':
-                        $err = "裁判任务异常！";
-                        self::referee();
                         break;
                     case 'venue':
                         $err = "场馆任务异常！";
@@ -131,10 +114,6 @@ class FootballV2Task extends Command
                         $err = "伤停任务异常！";
                         self::injury();
                         break;
-                    case 'lineup':
-                        $err = "阵容任务异常！";
-                        self::lineup();
-                        break;
                     case 'season':
                         $err = "赛季任务异常！";
                         self::season();
@@ -155,7 +134,10 @@ class FootballV2Task extends Command
                         $err = "比赛直播地址任务异常！";
                         self::liveUrl();
                         break;
-
+//                    case 'squad':
+//                        $err = "队伍阵容任务异常！";
+//                        self::squad();
+//                        break;
 
                 }
             } catch (\Exception $e) {
@@ -169,9 +151,9 @@ class FootballV2Task extends Command
     {
         echo "正在转储分类数据！\r\n";
         Helper::saveNaMiApiData(
-            new SportsFootballCategoryModel(),
+            new SportsBasketballCategoryModel(),
             'insertOrUpdate',
-            config('params.naMi.football.category')
+            config('params.naMi.basketball.category')
         );
         echo "分类数据转储完毕！\r\n";
 
@@ -182,9 +164,9 @@ class FootballV2Task extends Command
     {
         echo "正在转储国家数据！\r\n";
         Helper::saveNaMiApiData(
-            new SportsFootballCountryModel(),
+            new SportsBasketballCountryModel(),
             'insertOrUpdate',
-            config('params.naMi.football.country')
+            config('params.naMi.basketball.country')
         );
         echo "国家数据转储完毕！\r\n";
 
@@ -195,25 +177,12 @@ class FootballV2Task extends Command
     {
         echo "正在转储赛事数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballCompetitionModel(),
+            new SportsBasketballCompetitionModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.competition')
+            config('params.naMi.basketball.competition')
         );
         echo "赛事数据转储完毕！\r\n";
-        sleep(60);
-    }
-
-    public static function competitionRule()
-    {
-        echo "正在转储赛制数据！\r\n";
-        Helper::saveNaMiApiPageData(
-            new SportsFootballCompetitionRuleModel(),
-            'insertOrUpdate',
-            60,
-            config('params.naMi.football.competition_rule')
-        );
-        echo "赛制数据转储完毕！\r\n";
         sleep(60);
     }
 
@@ -221,10 +190,10 @@ class FootballV2Task extends Command
     {
         echo "正在转储队伍数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballTeamModel(),
+            new SportsBasketballTeamModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.team')
+            config('params.naMi.basketball.team')
         );
         echo "队伍数据转储完毕！\r\n";
         sleep(60);
@@ -234,38 +203,12 @@ class FootballV2Task extends Command
     {
         echo "正在转储球队数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballPlayerModel(),
+            new SportsBasketballPlayerModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.player')
+            config('params.naMi.basketball.player')
         );
         echo "球队数据转储完毕！\r\n";
-        sleep(60);
-    }
-
-    public static function manager()
-    {
-        echo "正在转储教练数据！\r\n";
-        Helper::saveNaMiApiPageData(
-            new SportsFootballManagerModel(),
-            'insertOrUpdate',
-            60,
-            config('params.naMi.football.manager')
-        );
-        echo "教练数据转储完毕！\r\n";
-        sleep(60);
-    }
-
-    public static function referee()
-    {
-        echo "正在转储裁判数据！\r\n";
-        Helper::saveNaMiApiPageData(
-            new SportsFootballRefereeModel(),
-            'insertOrUpdate',
-            60,
-            config('params.naMi.football.referee')
-        );
-        echo "裁判数据转储完毕！\r\n";
         sleep(60);
     }
 
@@ -273,10 +216,10 @@ class FootballV2Task extends Command
     {
         echo "正在转储场馆数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballVenueModel(),
+            new SportsBasketballVenueModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.venue')
+            config('params.naMi.basketball.venue')
         );
         echo "场馆数据转储完毕！\r\n";
         sleep(60);
@@ -286,10 +229,10 @@ class FootballV2Task extends Command
     {
         echo "正在转储荣誉数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballHonorModel(),
+            new SportsBasketballHonorModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.honor')
+            config('params.naMi.basketball.honor')
         );
         echo "荣誉数据转储完毕！\r\n";
         sleep(60);
@@ -299,10 +242,10 @@ class FootballV2Task extends Command
     {
         echo "正在转储比赛数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballMatchModel(),
+            new SportsBasketballMatchModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.match')
+            config('params.naMi.basketball.match')
         );
         echo "比赛数据转储完毕！\r\n";
         sleep(60);
@@ -314,14 +257,15 @@ class FootballV2Task extends Command
         foreach ($dates as $date) {
             echo "正在转储{$date}比赛数据！\r\n";
             $client = new Client();
-            $response = $client->request("GET", config('params.naMi.football.match_daily'), [
+            $response = $client->request("GET", config('params.naMi.basketball.match_daily'), [
                 'timeout' => '60',
                 'query' => ['user' => config('params.naMi.user'), 'secret' => config('params.naMi.secret'),'date' => $date]
             ]);
             $data = json_decode($response->getBody()->getContents());
             $matchList = isset($data->results) && !empty($data->results) ? $data->results  : [];
             foreach ($matchList->match as $match) {
-                SportsFootballMatchModel::insertOrUpdate($match);
+				print_r($match);
+                SportsBasketballMatchModel::insertOrUpdate($match);
             }
             echo "{$date}比赛数据转储完毕！\r\n";
         }
@@ -332,30 +276,31 @@ class FootballV2Task extends Command
     {
         echo "正在转储比赛实时数据！\r\n";
         Helper::saveNaMiApiList(
-            new SportsFootballMatchLiveModel(),
+            new SportsBasketballMatchLiveModel(),
             'insertOrUpdate',
-            config('params.naMi.football.detail_live')
+            config('params.naMi.basketball.detail_live')
         );
         echo "比赛实时数据转储完毕！\r\n";
         sleep(10);
     }
+
     public static function trendBeforeAfter15()
     {
         $startTime = strtotime("-15 day");
         $endTime = strtotime("+15 day");
-        $matchIds = SportsFootballMatchModel::whereBetween('match_time', [$startTime, $endTime])->pluck('id');
-        $sportsFootballMatchModel = new SportsFootballMatchModel();
+        $matchIds = SportsBasketballMatchModel::whereBetween('match_time', [$startTime, $endTime])->pluck('id');
+        $sportsBasketballMatchModel = new SportsBasketballMatchModel();
         foreach ($matchIds as $matchId) {
             try {
                 echo "正在转储{$matchId}比赛趋势数据！\r\n";
                 $client = new Client();
-                $response = $client->request("GET", config('params.naMi.football.trend'), [
+                $response = $client->request("GET", config('params.naMi.basketball.trend'), [
                     'timeout' => '60',
                     'query' => ['user' => config('params.naMi.user'), 'secret' => config('params.naMi.secret'), 'id' => $matchId]
                 ]);
                 $data = json_decode($response->getBody()->getContents());
                 if (!empty($data->results)) {
-                    $sportsFootballMatchModel->updateColumnsByPk(['id' => $matchId, 'trend' => json_encode($data->results)]);
+                    $sportsBasketballMatchModel->updateColumnsByPk(['id' => $matchId, 'trend' => json_encode($data->results)]);
                 }
                 usleep(500 * 1000);
                 echo "{$matchId}比赛趋势数据转储完毕！\r\n";
@@ -369,17 +314,17 @@ class FootballV2Task extends Command
     public static function videoLive()
     {
         $client = new Client();
-        $response = $client->request("GET", config('params.naMi.football.livePath'), [
+        $response = $client->request("GET", config('params.naMi.basketball.livePath'), [
             'timeout' => '60',
             'query' => ['user' => config('params.naMi.user'), 'secret' => config('params.naMi.secret')]
         ]);
         $data = json_decode($response->getBody()->getContents());
-
         if (!empty($data->results)) {
-            foreach ($data->results as $live) {
+            foreach ($data->results as $live) {				
+                //if ($live->sport_id != 2) continue;
                 echo "正在转储{$live->match_id}比赛版权视频数据！\r\n";
-                $sportsFootballMatchModel = new SportsFootballMatchModel();
-                $sportsFootballMatchModel->updateColumnsByPk([
+                $sportsBasketballMatchModel = new SportsBasketballMatchModel();
+                $sportsBasketballMatchModel->updateColumnsByPk([
                     'id' => $live->match_id,
                     'pc_link' => $live->pc_link,
                     'mobile_link' => $live->mobile_link,
@@ -391,50 +336,17 @@ class FootballV2Task extends Command
         sleep(600);
     }
 
-    public static function videoCollection()
-    {
-        $startTime = strtotime("-15 day");
-        $endTime = strtotime("+15 day");
-        $matchIds = SportsFootballMatchModel::where(['status_id' => SportsFootballMatchModel::STATUS_FINISH])
-            ->whereBetween('match_time', [$startTime, $endTime])->pluck('id');
-        foreach ($matchIds as $matchId) {
-            echo "正在转储{$matchId}比赛视频集锦和录像！\r\n";
-            try {
-                $client = new Client();
-                $response = $client->request("GET", config('params.naMi.football.video_collection'), [
-                    'timeout' => '60',
-                    'query' => [
-                        'user' => config('params.naMi.user'),
-                        'secret' => config('params.naMi.secret'),
-                        'match_id' => $matchId,
-                        'sport_id' => 1,
-                    ]
-                ]);
-                $data = json_decode($response->getBody()->getContents());
-                if (!empty($data->results)) {
-                    foreach ($data->results as $videoCollection) {
-						//print_r($videoCollection);
-						$videoCollection->id = $matchId;
-                        SportsFootballMatchVideoCollectionModel::insertOrUpdate($videoCollection);
-                    }
-                }
-            } catch (\Exception $e) {
-                echo "{$matchId}比赛趋势请求失败！\r\n{$e->getMessage()} ， file:{$e->getFile()}，line:{$e->getLine()}，trace:{$e->getTraceAsString()}\r\n";
-                sleep(1);
-            }
-        }
-    }
-
     public static function deleted()
     {
         echo "正在更新删除的数据！\r\n";
         $client = new Client();
-        $response = $client->request("GET", config('params.naMi.football.deleted'), [
+        $response = $client->request("GET", config('params.naMi.basketball.deleted'), [
             'timeout' => '60',
             'query' => ['user' => config('params.naMi.user'), 'secret' => config('params.naMi.secret')]
         ]);
         $data = json_decode($response->getBody()->getContents());
         $deleted= isset($data->results) && !empty($data->results) ? $data->results  : [];
+
         $func = function ($tagName, BaseModel $model) use ($deleted) {
             if (!empty($deleted->$tagName) && is_array($deleted->$tagName)) {
                 foreach ($deleted->$tagName as $matchId) {
@@ -445,11 +357,11 @@ class FootballV2Task extends Command
                 }
             }
         };
-        $func('match', new SportsFootballMatchModel());
-        $func('team', new SportsFootballTeamModel());
-        $func('player', new SportsFootballPlayerModel());
-        $func('competition', new SportsFootballCompetitionModel());
-        $func('season', new SportsFootballSeasonModel());
+        $func('match', new SportsBasketballMatchModel());
+        $func('team', new SportsBasketballTeamModel());
+        $func('player', new SportsBasketballPlayerModel());
+        $func('competition', new SportsBasketballCompetitionModel());
+        $func('season', new SportsBasketballSeasonModel());
 
         echo "更新删除的数据完毕！\r\n";
         sleep(300);
@@ -459,59 +371,23 @@ class FootballV2Task extends Command
     {
         echo "正在转储伤停数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballInjuryModel(),
+            new SportsBasketballInjuryModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.injury')
+            config('params.naMi.basketball.injury')
         );
         echo "伤停数据转储完毕！\r\n";
         sleep(60);
-    }
-
-    public static function lineup()
-    {
-        $startTime = strtotime("-15 day");
-        $endTime = strtotime("+15 day");
-        $matchList = SportsFootballMatchModel::whereBetween('match_time', [$startTime, $endTime])->get();
-        $matchIdMap = Helper::array_index($matchList, 'id');
-        $matchIds = Helper::array_get_column($matchList, 'id');
-        foreach ($matchIds as $matchId) {
-            echo "正在转储{$matchId}比赛阵容！\r\n";
-            try {
-                $client = new Client();
-                $response = $client->request("GET", config('params.naMi.football.lineup'), [
-                    'timeout' => '60',
-                    'query' => [
-                        'user' => config('params.naMi.user'),
-                        'secret' => config('params.naMi.secret'),
-                        'id' => $matchId,
-                    ]
-                ]);
-                $data = json_decode($response->getBody()->getContents());
-				//print_r($data);
-                if (!empty($data->results)) {
-                    $data->results->match_id = $matchId;
-                    $data->results->home_team_id = $matchIdMap[$matchId]->home_team_id;
-                    $data->results->away_team_id = $matchIdMap[$matchId]->away_team_id;
-                    SportsFootballMatchLineupModel::insertOrUpdate($data->results);
-                }
-                usleep(500 * 1000);
-            } catch (\Exception $e) {
-                echo "{$matchId}比赛阵容请求失败！\r\n{$e->getMessage()} ， file:{$e->getFile()}，line:{$e->getLine()}，trace:{$e->getTraceAsString()}\r\n";
-                sleep(1);
-            }
-        }
-        sleep(10);
     }
 
     public static function season()
     {
         echo "正在赛季数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballSeasonModel(),
+            new SportsBasketballSeasonModel(),
             'insertOrUpdate',
             60,
-            config('params.naMi.football.season')
+            config('params.naMi.basketball.season')
         );
         echo "赛季数据转储完毕！\r\n";
         sleep(60);
@@ -521,12 +397,12 @@ class FootballV2Task extends Command
     {
         $startTime = strtotime("-15 day");
         $endTime = strtotime("+15 day");
-        $matchIds = SportsFootballMatchModel::whereBetween('match_time', [$startTime, $endTime])->pluck('id');
+        $matchIds = SportsBasketballMatchModel::whereBetween('match_time', [$startTime, $endTime])->pluck('id');
         foreach ($matchIds as $matchId) {
             echo "正在转储{$matchId}比赛分析！\r\n";
             try {
                 $client = new Client();
-                $response = $client->request("GET", config('params.naMi.football.analysis'), [
+                $response = $client->request("GET", config('params.naMi.basketball.analysis'), [
                     'timeout' => '60',
                     'query' => [
                         'user' => config('params.naMi.user'),
@@ -535,10 +411,9 @@ class FootballV2Task extends Command
                     ]
                 ]);
                 $data = json_decode($response->getBody()->getContents());
-				//print_r($data);
                 if (!empty($data)) {
                     $data->match_id = $matchId;
-                    SportsFootballMatchAnalysisModel::insertOrUpdate($data);
+                    SportsBasketballMatchAnalysisModel::insertOrUpdate($data);
                 }
                 sleep(1);
             } catch (\Exception $e) {
@@ -553,10 +428,10 @@ class FootballV2Task extends Command
     {
         echo "正在转储历史同赔数据！\r\n";
         Helper::saveNaMiApiPageData(
-            new SportsFootballCompensationModel(),
+            new SportsBasketballCompensationModel(),
             'insertOrUpdate',
             2,
-            config('params.naMi.football.compensation')
+            config('params.naMi.basketball.compensation')
         );
         echo "历史同赔数据转储完毕！\r\n";
         sleep(60);
@@ -566,13 +441,12 @@ class FootballV2Task extends Command
     {
         $startTime = strtotime("-15 day");
         $endTime = strtotime("+15 day");
-        $matchIds = SportsFootballMatchModel::where(['status_id' => SportsFootballMatchModel::STATUS_FINISH])
-            ->whereBetween('match_time', [$startTime, $endTime])->pluck('id');
+        $matchIds = SportsBasketballMatchModel::whereBetween('match_time', [$startTime, $endTime])->pluck('id');
         foreach ($matchIds as $matchId) {
             echo "正在转储{$matchId}历史比赛统计数据！\r\n";
             try {
                 $client = new Client();
-                $response = $client->request("GET", config('params.naMi.football.history'), [
+                $response = $client->request("GET", config('params.naMi.basketball.history'), [
                     'timeout' => '60',
                     'query' => [
                         'user' => config('params.naMi.user'),
@@ -580,9 +454,9 @@ class FootballV2Task extends Command
                         'id' => $matchId,
                     ]
                 ]);
-                $data = json_decode($response->getBody()->getContents());
-                if (!empty($data->results)) {
-                    SportsFootballMatchLiveModel::insertOrUpdate($data->results);
+                $data = json_decode($response->getBody()->getContents());				
+                if (isset($data->results) && (array)$data->results) {
+                    SportsBasketballMatchLiveModel::insertOrUpdate($data->results);
                 }
                 usleep(500 * 1000);
             } catch (\Exception $e) {
@@ -604,9 +478,9 @@ class FootballV2Task extends Command
         $data = json_decode($response->getBody()->getContents());
 
         if (!empty($data->data) && is_array($data->data)) {
-            $model = new SportsFootballMatchModel();
+            $model = new SportsBasketballMatchModel();
             foreach ($data->data as $live) {
-                if ($live->sport_id != 1) continue;
+                if ($live->sport_id != 2) continue;
                 $live_url_1 = explode('/', $live->pushurl1);
                 $live_url_2 = explode('/', $live->pushurl2);
                 $live_url_3 = explode('/', $live->pushurl3);
@@ -625,4 +499,18 @@ class FootballV2Task extends Command
         echo "比赛直播地址更新完毕！\r\n";
         sleep(30);
     }
+
+//    public static function squad()
+//    {
+//        echo "正在转储队伍阵容数据！\r\n";
+//        Helper::saveNaMiApiPageData(
+//            new SportsBasketballPlayerModel(),
+//            'updateTeamId',
+//            60,
+//            config('params.naMi.basketball.squad')
+//        );
+//        echo "队伍阵容数据转储完毕！\r\n";
+//        sleep(60);
+//    }
+
 }

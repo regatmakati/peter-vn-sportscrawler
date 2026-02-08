@@ -1,0 +1,218 @@
+##################
+#######dota2#######
+##################
+[program:dota2Country]
+process_name=dota2Country
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=country
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Country-supervisor.log
+
+[program:dota2Tournament]
+process_name=dota2Tournament
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournament
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Tournament-supervisor.log
+
+[program:dota2Player]
+process_name=dota2Player
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=player
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Player-supervisor.log
+
+[program:dota2Team]
+process_name=dota2Team
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=team
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Team-supervisor.log
+
+[program:dota2Region]
+process_name=dota2Region
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=region
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Region-supervisor.log
+
+[program:dota2Hero]
+process_name=dota2Hero
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=hero
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Hero-supervisor.log
+
+[program:dota2HeroRune]
+process_name=dota2HeroRune
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=heroRune
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2HeroRune-supervisor.log
+
+[program:dota2HeroSpell]
+process_name=dota2HeroSpell
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=heroSpell
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2HeroSpell-supervisor.log
+
+[program:dota2Equipment]
+process_name=dota2Equipment
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=equipment
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Equipment-supervisor.log
+
+[program:dota2Match]
+process_name=dota2Match
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=match
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Match-supervisor.log
+
+[program:dota2MatchSingle]
+process_name=dota2MatchSingle
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=matchSingle
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2MatchSingle-supervisor.log
+
+[program:dota2MatchSinglePlayerStat]
+process_name=dota2MatchSinglePlayerStat
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=matchSinglePlayerStat
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2MatchSinglePlayerStat-supervisor.log
+
+[program:dota2TournamentMatch]
+process_name=dota2TournamentMatch
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournamentMatch
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2TournamentMatch-supervisor.log
+
+[program:dota2MatchLive]
+process_name=dota2MatchLive
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=matchLive
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2MatchLive-supervisor.log
+
+[program:dota2Stream]
+process_name=dota2Stream
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=stream
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Stream-supervisor.log
+
+[program:dota2Deleted]
+process_name=dota2Deleted
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=deleted
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Deleted-supervisor.log
+
+[program:dota2OddsLive]
+process_name=dota2OddsLive
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=oddsLive
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2OddsLive-supervisor.log
+
+[program:dota2OddsHistory]
+process_name=dota2OddsHistory
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=oddsHistory
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2OddsHistory-supervisor.log
+
+[program:dota2Stage]
+process_name=dota2Stage
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=stage
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2Stage-supervisor.log
+
+[program:dota2TournamentTeam]
+process_name=dota2TournamentTeam
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournamentTeam
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2TournamentTeam-supervisor.log
+
+[program:dota2TournamentRound]
+process_name=dota2TournamentRound
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournamentRound
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2TournamentRound-supervisor.log
+
+[program:dota2TournamentPvp]
+process_name=dota2TournamentPvp
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournamentPvp
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2TournamentPvp-supervisor.log
+
+[program:dota2TournamentPvpLine]
+process_name=dota2TournamentPvpLine
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournamentPvpLine
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2TournamentPvpLine-supervisor.log
+
+[program:dota2TournamentRank]
+process_name=dota2TournamentRank
+command=/usr/bin/php73 /data/wwwroot/SportsCrawler/artisan dota2Task:handle --action=tournamentRank
+autostart=true
+autorestart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/data/wwwlogs/dota2TournamentRank-supervisor.log

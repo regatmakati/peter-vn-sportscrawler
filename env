@@ -1,0 +1,69 @@
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:plNLrm8iT8NAhICeeikf9v+e+ZN+KMx+6dTkImQYkls=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+LOG_CHANNEL=stack
+LOG_LEVEL=debug
+
+ADMIN_HTTPS=false
+
+DB_CONNECTION=mysql
+DB_HOST=156.240.62.58
+DB_PORT=3306
+DB_DATABASE=live
+DB_USERNAME=live
+DB_PASSWORD=aO!FeJR8lAaH7*yW
+
+DB_SPORTS_CONNECTION=mysql_sports
+DB_SPORTS_HOST=156.240.62.58
+DB_SPORTS_PORT=3306
+DB_SPORTS_DATABASE=center_sports
+DB_SPORTS_USERNAME=sports
+DB_SPORTS_PASSWORD=aO!FeJR8lAaH7*yW
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+REDIS_HOST=156.240.62.74
+REDIS_PASSWORD=Odgo!L8kH^mKahr$
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+GENERATE_ALWAYS=true
+
+API_STANDARDS_TREE=vnd              #表示公开发布的项目
+API_SUBTYPE=signature               #项目短名称
+API_PREFIX=api                      #子域
+#API_DOMAIN=build.admin.com         #域名
+API_VERSION=v1                      #默认版本号
+API_NAME=SignatureAPI               #只会在你使用API Blueprint命令生成文档的时候使用，避免你每次生成文档的时候都必须手动定义名称。
+API_CONDITIONAL_REQUEST=false       #条件请求默认为开启状态，这有利于客户端的缓存机制在可能的情况下缓存 API 请求
+API_STRICT=false                    #严格模式要求客户端发送Accept头，代替配置文件中配置的默认版本。这意味着你将不能通过浏览器直接访问你的 API。
+API_DEFAULT_FORMAT=json             #默认的响应格式是JSON，并有一个JSON响应格式是被默认注册。
+API_DEBUG=true                      #该包处理的通用错误包括一个debug键，当启用这个键时，将会填充堆栈跟踪详细信息。

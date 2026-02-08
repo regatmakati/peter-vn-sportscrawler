@@ -1,0 +1,80 @@
+2020-09-18 18:31:07 pid:1 Worker process terminated with ERROR: E_COMPILE_ERROR "require_once(): Failed opening required 'D:\code\elive\task/../config/database.php' (include_path='.;C:\php\pear') in D:\code\elive\task\Task.php on line 11"
+2020-09-18 18:32:44 pid:1 Worker process terminated with ERROR: E_COMPILE_ERROR "require_once(): Failed opening required 'D:\code\elive\task/../config/database.php' (include_path='.;C:\php\pear') in D:\code\elive\task\Task.php on line 11"
+2020-10-23 14:09:17 pid:1 Worker process terminated with ERROR: E_COMPILE_ERROR "require_once(): Failed opening required 'D:\phpStudy\PHPTutorial\WWW\SportsCrawler\task/../data/config/database.php' (include_path='.;C:\php\pear') in D:\phpStudy\PHPTutorial\WWW\SportsCrawler\task\Team.php on line 11"
+2020-10-27 15:25:24 pid:1 Worker process terminated
+2020-10-27 15:26:31 pid:1 Worker process terminated
+2020-10-27 15:30:06 pid:1 Worker process terminated
+2020-10-27 15:30:43 pid:1 Worker process terminated
+2020-10-27 15:32:47 pid:1 Worker process terminated
+2020-10-27 15:48:36 pid:1 Worker process terminated
+2020-10-27 15:51:24 pid:1 Worker process terminated
+2020-10-27 15:58:33 pid:1 Worker process terminated
+2020-10-27 15:59:17 pid:1 Worker process terminated
+2020-10-27 16:32:12 pid:1 Worker process terminated
+2020-10-27 16:33:35 pid:1 Worker process terminated
+2020-11-03 07:03:42 pid:1 Worker process terminated with ERROR: E_COMPILE_ERROR "require_once(): Failed opening required 'D:\phpStudy\PHPTutorial\WWW\SportsCrawler\task/../data/config/database.php' (include_path='.;C:\php\pear') in D:\phpStudy\PHPTutorial\WWW\SportsCrawler\task\Raw.php on line 11"
+2021-05-28 13:02:35 pid:2216 Workerman[Match.php] stop 
+2021-05-28 13:02:35 pid:2216 Workerman[Match.php] is stopping ...
+2021-05-28 13:02:35 pid:20085 Workerman[Match.php] stopping ...
+2021-05-28 13:02:35 pid:20085 Workerman[Match.php] has been stopped
+2021-05-28 13:02:35 pid:2216 Workerman[Match.php] stop success
+2021-05-28 13:02:38 pid:2231 Workerman[Match.php] start in DEBUG mode
+2021-05-28 13:02:38 pid:2232 PDOException: SQLSTATE[HY000] [2002] Connection refused in /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php:1711
+Stack trace:
+#0 /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php(1711): PDO->__construct('mysql:dbname=el...', 'root', 'root', Array)
+#1 /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php(1698): Workerman\MySQL\Connection->connect()
+#2 /www/wwwroot/sportscrawler/task/Match.php(36): Workerman\MySQL\Connection->__construct('127.0.0.1', '3306', 'root', 'root', 'elive')
+#3 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(2393): {closure}(Object(Workerman\Worker))
+#4 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1541): Workerman\Worker->run()
+#5 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1371): Workerman\Worker::forkOneWorkerForLinux(Object(Workerman\Worker))
+#6 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1345): Workerman\Worker::forkWorkersForLinux()
+#7 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(546): Workerman\Worker::forkWorkers()
+#8 /www/wwwroot/sportscrawler/task/Match.php(1352): Workerman\Worker::runAll()
+#9 {main}
+2021-05-28 13:02:39 pid:2232 Worker[2232] process terminated
+2021-05-28 13:02:39 pid:2231 worker[none:2232] exit with status 64000
+2021-05-28 13:02:39 pid:2237 PDOException: SQLSTATE[HY000] [2002] Connection refused in /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php:1711
+Stack trace:
+#0 /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php(1711): PDO->__construct('mysql:dbname=el...', 'root', 'root', Array)
+#1 /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php(1698): Workerman\MySQL\Connection->connect()
+#2 /www/wwwroot/sportscrawler/task/Match.php(36): Workerman\MySQL\Connection->__construct('127.0.0.1', '3306', 'root', 'root', 'elive')
+#3 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(2393): {closure}(Object(Workerman\Worker))
+#4 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1541): Workerman\Worker->run()
+#5 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1371): Workerman\Worker::forkOneWorkerForLinux(Object(Workerman\Worker))
+#6 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1345): Workerman\Worker::forkWorkersForLinux()
+#7 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1675): Workerman\Worker::forkWorkers()
+#8 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1624): Workerman\Worker::monitorWorkersForLinux()
+#9 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(548): Workerman\Worker::monitorWorkers()
+#10 /www/wwwroot/sportscrawler/task/Match.php(1352): Workerman\Worker::runAll()
+#11 {main}
+2021-05-28 13:02:40 pid:2237 Worker[2237] process terminated
+2021-05-28 13:02:40 pid:2231 worker[none:2237] exit with status 64000
+2021-05-28 13:02:40 pid:2239 PDOException: SQLSTATE[HY000] [2002] Connection refused in /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php:1711
+Stack trace:
+#0 /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php(1711): PDO->__construct('mysql:dbname=el...', 'root', 'root', Array)
+#1 /www/wwwroot/sportscrawler/task/vendor/workerman/mysql/src/Connection.php(1698): Workerman\MySQL\Connection->connect()
+#2 /www/wwwroot/sportscrawler/task/Match.php(36): Workerman\MySQL\Connection->__construct('127.0.0.1', '3306', 'root', 'root', 'elive')
+#3 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(2393): {closure}(Object(Workerman\Worker))
+#4 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1541): Workerman\Worker->run()
+#5 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1371): Workerman\Worker::forkOneWorkerForLinux(Object(Workerman\Worker))
+#6 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1345): Workerman\Worker::forkWorkersForLinux()
+#7 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1675): Workerman\Worker::forkWorkers()
+#8 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(1624): Workerman\Worker::monitorWorkersForLinux()
+#9 /www/wwwroot/sportscrawler/task/vendor/workerman/workerman/Worker.php(548): Workerman\Worker::monitorWorkers()
+#10 /www/wwwroot/sportscrawler/task/Match.php(1352): Workerman\Worker::runAll()
+#11 {main}
+2021-05-28 13:02:41 pid:2239 Worker[2239] process terminated
+2021-05-28 13:02:41 pid:2231 Workerman[Match.php] stopping ...
+2021-05-28 13:02:41 pid:2231 worker[none:2239] exit with status 64000
+2021-05-28 13:02:41 pid:2231 Workerman[Match.php] has been stopped
+2021-05-28 13:08:05 pid:3648 Workerman[Match.php] start in DEBUG mode
+2021-05-28 13:11:54 pid:3648 Workerman[Match.php] stopping ...
+2021-05-28 13:11:54 pid:3648 Workerman[Match.php] has been stopped
+2021-05-28 13:13:43 pid:5142 Workerman[Match.php] start in DEBUG mode
+2021-05-28 13:20:26 pid:5142 Workerman[Match.php] stopping ...
+2021-05-28 13:20:26 pid:5142 Workerman[Match.php] has been stopped
+2021-05-28 13:20:27 pid:6849 Workerman[Match.php] start in DEBUG mode
+2021-05-28 14:00:20 pid:6849 Workerman[Match.php] stopping ...
+2021-05-28 14:00:20 pid:6849 Workerman[Match.php] has been stopped
+2021-05-28 14:00:23 pid:17196 Workerman[Match.php] start in DAEMON mode
+2021-06-06 13:36:04 pid:17198 Workerman[Match.php] stopping ...

@@ -1,0 +1,4 @@
+php League.php start -d
+php Match.php start -d
+php Raw.php start -d
+php Team.php start -d

@@ -5,6 +5,7 @@ namespace App\Models\Sports;
 use App\Helpers\Helper;
 use App\Helpers\RedisKeyMap;
 use App\Models\BaseModel;
+use App\Models\CmfLiveModel;
 use Illuminate\Support\Facades\Redis;
 
 class SportsBasketballMatchModel extends BaseModel
@@ -108,6 +109,13 @@ class SportsBasketballMatchModel extends BaseModel
         return $this->hasOne(SportsBasketballCompetitionModel::class, 'id', 'competition_id');
     }
 
+
+    public function lives()
+    {
+        return $this->hasMany(CmfLiveModel::class, 'match_id', 'id');
+    }
+
+
     public function getMatchDateAttribute()
     {
         return date("Y-m-d", $this->attributes["match_time"]);
@@ -185,6 +193,76 @@ class SportsBasketballMatchModel extends BaseModel
         return [];
     }
 
+
+
+
+    /**
+     * @param $input
+     * @return array|mixed
+     */
+    public static function getMatchAllListV3($input)
+    {
+        $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchAllListV3($input['page'])));
+        if (!empty($matchList)) return $matchList;
+        $nowDate = date("Y-m-d");
+        $endDate = date('Y-m-d', strtotime("+2 day"));
+
+        $query = self::with(['homeTeam', 'awayTeam', 'league','lives'])
+            ->whereRaw(
+                "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
+                [$nowDate, $endDate]
+            );
+        $matchList = [];
+        $total = (clone $query)->count();
+
+        $list = $query
+            ->orderBy('match_time', 'ASC')
+            ->orderBy('status_id', 'ASC')
+            ->offset(($input['page'] - 1) * 10)
+            ->limit(10)
+            ->get();
+        $matchList['total'] = $total;
+        $matchList['list'] = [];
+        if (count($list) > 0) {
+            $matchList['list'] = $list;
+            Redis::setex(RedisKeyMap::getBasketballMatchAllListV3($input['page']), config('params.cache.ttl'), $matchList);
+        }
+        return $matchList;
+    }
+
+
+
+    public static function getMatchListByHot($input)
+    {
+        $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchListByHotV3($input['page'])));
+        if (!empty($matchList)) return $matchList;
+        $nowDate = date("Y-m-d");
+        $endDate = date('Y-m-d', strtotime("+2 day"));
+
+        $query = self::with(['homeTeam', 'awayTeam', 'league','lives'])
+            ->where('is_hot','=',  1)
+            ->whereRaw(
+                "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
+                [$nowDate, $endDate]
+            );
+        $matchList = [];
+        $total = (clone $query)->count();
+
+        $list = $query
+            ->orderBy('match_time', 'ASC')
+            ->orderBy('status_id', 'ASC')
+            ->offset(($input['page'] - 1) * 10)
+            ->limit(10)
+            ->get();
+        $matchList['total'] = $total;
+        $matchList['list'] = [];
+        if (count($list) > 0) {
+            $matchList['list'] = $list;
+            Redis::setex(RedisKeyMap::getBasketballMatchListByHotV3($input['page']), config('params.cache.ttl'), $matchList);
+        }
+        return $matchList;
+    }
+
     public static function getMatchPLayingList($input)
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchPlayingListV2($input['page'])));
@@ -215,6 +293,40 @@ class SportsBasketballMatchModel extends BaseModel
         return [];
     }
 
+
+
+
+    /**
+     * @param $input
+     * @return array|mixed
+     */
+    public static function getMatchPLayingListV3($input)
+    {
+        $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchPlayingListV3($input['page'])));
+        if (!empty($matchList)) return $matchList;
+        $showStartTime = strtotime("-1 day");
+
+        $query = self::with(['homeTeam', 'awayTeam', 'league','lives'])
+            ->whereIn( 'status_id', self::$playingStatusMap)
+            ->where('match_time','>=',  $showStartTime);
+        $matchList = [];
+        $total = (clone $query)->count();
+        $list = $query
+            ->orderBy('match_time', 'ASC')
+            ->orderBy('status_id', 'ASC')
+            ->offset(($input['page'] - 1) * 10)
+            ->limit(10)
+            ->get();
+
+        $matchList['total'] = $total;
+        $matchList['list'] = [];
+        if (count($list) > 0) {
+            $matchList['list'] = $list;
+            Redis::setex(RedisKeyMap::getBasketballMatchPlayingListV3($input['page']), config('params.cache.ttl'), $matchList);
+        }
+        return $matchList;
+    }
+
     public static function getMatchListByDate($input)
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchListByDateV2($input['page'], $input['date'], $input['action'])));
@@ -242,6 +354,44 @@ class SportsBasketballMatchModel extends BaseModel
             return $matchList;
         }
         return [];
+    }
+
+
+
+    public static function getMatchListByDateV3($input)
+    {
+        $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchListByDateV3($input['page'], $input['date'], $input['action'])));
+        if (!empty($matchList)) return $matchList;
+        $model = self::with(['homeTeam', 'awayTeam', 'league', 'lives'])
+            ->whereRaw("FROM_UNIXTIME(match_time, '%Y-%m-%d') = '{$input['date']}'");
+        if (isset($input['action'])) {
+            switch ($input['action']) {
+                case 1:     //赛程
+                    $model->whereIn('status_id', self::$notStartStatusMap);
+                    break;
+                case 2:     //赛果
+                    $model->where(['status_id' => self::STATUS_FINISH]);
+                    break;
+            }
+        }
+
+        $matchList = [];
+        $total =  (clone $model)->count();
+        $matchList['total'] = $total;
+
+        $list = $model->orderBy('status_id', 'ASC')
+            ->orderBy('match_time', 'ASC')
+            ->orderBy('id', 'ASC')
+            ->offset(($input['page'] - 1) * 10)
+            ->limit(10)
+            ->get();
+        $matchList['list'] = [];
+        if (count($list) > 0) {
+            $matchList['list'] = $list;
+            Redis::setex(RedisKeyMap::getBasketballMatchListByDateV3($input['page'], $input['date'], $input['action']), config('params.cache.ttl'), json_encode($matchList));
+
+        }
+        return $matchList;
     }
 
     public static function getMatch($input)

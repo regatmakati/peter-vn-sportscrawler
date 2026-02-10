@@ -68,7 +68,7 @@ $api->version('v1', function ($api) {
 	
     $api->get('v2/football/getMatchPlayingList', 'App\Http\Controllers\FootballV2Controller@getMatchPlayingList');
     $api->post('v2/football/getMatchPlayingList', 'App\Http\Controllers\FootballV2Controller@getMatchPlayingList');
-    $api->get('v2/basketball/getMatchPlayingList', 'App\Http\Controllers\BasketballV2Controller@getMatchPlayingList');
+    $api->get('v2/basketball/getMatchPlayingList', 'App\Http\Controllers\BbasketballV2Controller@getMatchPlayingList');
     $api->post('v2/basketball/getMatchPlayingList', 'App\Http\Controllers\BasketballV2Controller@getMatchPlayingList');
 
     $api->get('v2/football/getMatchListByDate', 'App\Http\Controllers\FootballV2Controller@getMatchListByDate');
@@ -80,5 +80,20 @@ $api->version('v1', function ($api) {
     $api->post('v2/football/getMatch', 'App\Http\Controllers\FootballV2Controller@getMatch');
     $api->get('v2/basketball/getMatch', 'App\Http\Controllers\BasketballV2Controller@getMatch');
     $api->post('v2/basketball/getMatch', 'App\Http\Controllers\BasketballV2Controller@getMatch');
+
+
+
+    //越南改版的比赛
+    $api->any('v3/football/getMatchAllList', 'App\Http\Controllers\FootballV3Controller@getMatchAllList');
+    $api->any('v3/football/getMatchListByHot', 'App\Http\Controllers\FootballV3Controller@getMatchListByHot');
+    $api->any('v3/football/getMatchPlayingList', 'App\Http\Controllers\FootballV3Controller@getMatchPlayingList');
+    $api->any('v3/football/getMatchListByDate', 'App\Http\Controllers\FootballV3Controller@getMatchListByDate');
+
+
+    $api->any('v3/basketball/getMatchAllList', 'App\Http\Controllers\BasketballV3Controller@getMatchAllList');
+    $api->any('v3/basketball/getMatchListByHot', 'App\Http\Controllers\BasketballV3Controller@getMatchListByHot');
+    $api->any('v3/basketball/getMatchPlayingList', 'App\Http\Controllers\BasketballV3Controller@getMatchPlayingList');
+    $api->any('v3/basketball/getMatchListByDate', 'App\Http\Controllers\BasketballV3Controller@getMatchListByDate');
+
 });
 

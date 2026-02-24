@@ -5,6 +5,7 @@ namespace App\Models\Sports;
 use App\Helpers\Helper;
 use App\Helpers\RedisKeyMap;
 use App\Models\BaseModel;
+use App\Models\CmfAnchorAuth;
 use App\Models\CmfLiveModel;
 use Illuminate\Support\Facades\Redis;
 
@@ -105,9 +106,9 @@ class SportsFootballMatchModel extends BaseModel
     }
 
 
-    public function lives()
+    public function anchor()
     {
-        return $this->hasMany(CmfLiveModel::class, 'match_id', 'id');
+        return $this->hasOne(SportsFootballMatchAnchorModel::class, 'match_id', 'id');
     }
 
     public function getMatchDateAttribute()
@@ -209,7 +210,7 @@ class SportsFootballMatchModel extends BaseModel
         $nowDate = date("Y-m-d");
         $endDate = date('Y-m-d', strtotime("+2 day"));
 
-        $query = self::with(['homeTeam', 'awayTeam', 'league','lives'])
+        $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->whereRaw(
                 "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
                 [$nowDate, $endDate]
@@ -226,6 +227,21 @@ class SportsFootballMatchModel extends BaseModel
         $matchList['total'] = $total;
         $matchList['list'] = [];
         if (count($list) > 0) {
+
+            $anchorList = CmfAnchorAuth::getAllAnchor();
+            foreach ($list as &$v){
+                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
+                    $d = [];
+                    $userIds = explode(',', $v['anchor']['user_ids']);
+                    foreach ($userIds as $uid){
+                        $d[] = $anchorList[$uid];
+                    }
+
+                    $v['lives'] = $d;
+                }
+            }
+
+
             $matchList['list'] = $list;
             Redis::setex(RedisKeyMap::getFootballMatchAllListV3($input['page']), config('params.cache.ttl'), $matchList);
         }
@@ -239,7 +255,7 @@ class SportsFootballMatchModel extends BaseModel
         $nowDate = date("Y-m-d");
         $endDate = date('Y-m-d', strtotime("+2 day"));
 
-        $query = self::with(['homeTeam', 'awayTeam', 'league','lives'])
+        $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->where('is_hot','=',  1)
             ->whereRaw(
                 "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
@@ -257,6 +273,19 @@ class SportsFootballMatchModel extends BaseModel
         $matchList['total'] = $total;
         $matchList['list'] = [];
         if (count($list) > 0) {
+            $anchorList = CmfAnchorAuth::getAllAnchor();
+            foreach ($list as &$v){
+                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
+                    $d = [];
+                    $userIds = explode(',', $v['anchor']['user_ids']);
+                    foreach ($userIds as $uid){
+                        $d[] = $anchorList[$uid];
+                    }
+
+                    $v['lives'] = $d;
+                }
+            }
+
             $matchList['list'] = $list;
             Redis::setex(RedisKeyMap::getFootballMatchListByHotV3($input['page']), config('params.cache.ttl'), $matchList);
         }
@@ -310,7 +339,7 @@ class SportsFootballMatchModel extends BaseModel
         if (!empty($matchList)) return $matchList;
         $showStartTime = strtotime("-1 day");
 
-        $query = self::with(['homeTeam', 'awayTeam', 'league','lives'])
+        $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->whereIn( 'status_id', self::$playingStatusMap)
             ->where('match_time','>=',  $showStartTime);
         $matchList = [];
@@ -325,6 +354,19 @@ class SportsFootballMatchModel extends BaseModel
         $matchList['total'] = $total;
         $matchList['list'] = [];
         if (count($list) > 0) {
+            $anchorList = CmfAnchorAuth::getAllAnchor();
+            foreach ($list as &$v){
+                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
+                    $d = [];
+                    $userIds = explode(',', $v['anchor']['user_ids']);
+                    foreach ($userIds as $uid){
+                        $d[] = $anchorList[$uid];
+                    }
+
+                    $v['lives'] = $d;
+                }
+            }
+
             $matchList['list'] = $list;
             Redis::setex(RedisKeyMap::getFootballMatchPlayingListV3($input['page']), config('params.cache.ttl'), $matchList);
         }
@@ -370,7 +412,7 @@ class SportsFootballMatchModel extends BaseModel
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getFootballMatchListByDateV3($input['page'], $input['date'], $input['action'])));
         if (!empty($matchList)) return $matchList;
-        $model = self::with(['homeTeam', 'awayTeam', 'league', 'lives'])
+        $model = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->whereRaw("FROM_UNIXTIME(match_time, '%Y-%m-%d') = '{$input['date']}'");
         if (isset($input['action'])) {
             switch ($input['action']) {
@@ -395,6 +437,20 @@ class SportsFootballMatchModel extends BaseModel
             ->get();
         $matchList['list'] = [];
         if (count($list) > 0) {
+
+            $anchorList = CmfAnchorAuth::getAllAnchor();
+            foreach ($list as &$v){
+                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
+                    $d = [];
+                    $userIds = explode(',', $v['anchor']['user_ids']);
+                    foreach ($userIds as $uid){
+                        $d[] = $anchorList[$uid];
+                    }
+
+                    $v['lives'] = $d;
+                }
+            }
+
             $matchList['list'] = $list;
             Redis::setex(RedisKeyMap::getFootballMatchListByDateV3($input['page'], $input['date'], $input['action']), config('params.cache.ttl'), json_encode($matchList));
 

@@ -227,15 +227,14 @@ class SportsBasketballMatchModel extends BaseModel
 
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
+                $d = [];
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $d = [];
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
                         $d[] = $anchorList[$uid];
                     }
-
-                    $v['lives'] = $d;
                 }
+                $v['lives'] = $d;
             }
             
             $matchList['list'] = $list;
@@ -274,15 +273,14 @@ class SportsBasketballMatchModel extends BaseModel
 
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
+                $d = [];
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $d = [];
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
                         $d[] = $anchorList[$uid];
                     }
-
-                    $v['lives'] = $d;
                 }
+                $v['lives'] = $d;
             }
 
             $matchList['list'] = $list;
@@ -352,15 +350,14 @@ class SportsBasketballMatchModel extends BaseModel
 
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
+                $d = [];
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $d = [];
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
                         $d[] = $anchorList[$uid];
                     }
-
-                    $v['lives'] = $d;
                 }
+                $v['lives'] = $d;
             }
 
             $matchList['list'] = $list;
@@ -432,15 +429,14 @@ class SportsBasketballMatchModel extends BaseModel
 
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
+                $d = [];
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $d = [];
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
                         $d[] = $anchorList[$uid];
                     }
-
-                    $v['lives'] = $d;
                 }
+                $v['lives'] = $d;
             }
 
             $matchList['list'] = $list;

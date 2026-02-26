@@ -88,12 +88,14 @@ $api->version('v1', function ($api) {
     $api->any('v3/football/getMatchListByHot', 'App\Http\Controllers\FootballV3Controller@getMatchListByHot');
     $api->any('v3/football/getMatchPlayingList', 'App\Http\Controllers\FootballV3Controller@getMatchPlayingList');
     $api->any('v3/football/getMatchListByDate', 'App\Http\Controllers\FootballV3Controller@getMatchListByDate');
+    $api->any('v3/football/getMatchSum', 'App\Http\Controllers\FootballV3Controller@getMatchSum');
 
 
     $api->any('v3/basketball/getMatchAllList', 'App\Http\Controllers\BasketballV3Controller@getMatchAllList');
     $api->any('v3/basketball/getMatchListByHot', 'App\Http\Controllers\BasketballV3Controller@getMatchListByHot');
     $api->any('v3/basketball/getMatchPlayingList', 'App\Http\Controllers\BasketballV3Controller@getMatchPlayingList');
     $api->any('v3/basketball/getMatchListByDate', 'App\Http\Controllers\BasketballV3Controller@getMatchListByDate');
+    $api->any('v3/basketball/getMatchSum', 'App\Http\Controllers\BasketballV3Controller@getMatchSum');
 
 });
 

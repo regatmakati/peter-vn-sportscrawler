@@ -220,4 +220,14 @@ class FootballV3Controller extends Controller
 
         return Helper::returnJson($matchList);
     }
+
+
+
+    public function getMatchSum(Request $request)
+    {
+
+        $matchList = SportsFootballMatchModel::getMatchSum();
+
+        return Helper::returnJson($matchList);
+    }
 }

@@ -269,4 +269,14 @@ class BasketballV3Controller extends Controller
 
         return Helper::returnJson($matchList);
     }
+
+
+
+    public function getMatchSum(Request $request)
+    {
+
+        $matchList = SportsBasketballMatchModel::getMatchSum();
+
+        return Helper::returnJson($matchList);
+    }
 }

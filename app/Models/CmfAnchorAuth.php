@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redis;
 class CmfAnchorAuth extends BaseModel
 {
     protected $connection = 'mysql'; // 第二个数据库
-    protected $table = 'Cmf_anchor_auth';
+    protected $table = 'cmf_anchor_auth';
     protected $primaryKey = 'id';
     public $timestamps = false;
 //    protected $hidden = ['id', 'created_at', 'updated_at'];

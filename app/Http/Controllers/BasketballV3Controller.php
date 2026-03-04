@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MessageException;
 use App\Helpers\Helper;
-use App\Models\Sports\SportsBasketballMatchModel;
-use App\Models\Sports\SportsFootballMatchModel;
-use App\Models\Sports\SportsMatchCorrelationModel;
+use App\Models\CmfGgscoreMatchModel;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -14,51 +12,7 @@ use Illuminate\Validation\Rule;
 class BasketballV3Controller extends Controller
 {
 
-    /**
-     * @OA\Get(
-     *      path="/api/v3/basketball/getSlideEvents",
-     *      operationId="getSlideEvents",
-     *      tags={"纳米-篮球接口"},
-     *      summary="首页推荐-全部",
-     *      description="根据日期分组",
-     *      @OA\Response(
-     *          response=200,
-     *          description="List posts",
-     *          @OA\JsonContent(
-     *              @OA\Property(
-     *              property="日期",
-     *              type="array",
-     *              @OA\Items(ref="#/components/schemas/纳米-首页推荐列表")
-     *          ),
-     *      )
-     *   )
-     *  ),
-     */
-    public function getSlideEvents(Request $request)
-    {
-        $input['page'] = 1;
-        $basketballMatchList = SportsBasketballMatchModel::getMatchAllList($input);
-		$footballMatchList = SportsFootballMatchModel::getMatchAllList($input);
-		$data = [];
-		if(isset($basketballMatchList[0])){
-			$basketballList = $basketballMatchList[0]['list'];
-			foreach($basketballList as $key=>$val){
-				$val['type'] = "1";
-				$val['typename'] = "篮球";
-				$data[] = $val;
-			}			
-		}
 
-		if(isset($footballMatchList[0])){
-			$footballList = $footballMatchList[0]['list'];
-			foreach($footballList as $key=>$val){
-				$val['type'] = "2";
-				$val['typename'] = "足球";
-				$data[] = $val;
-			}				
-		}	
-        return Helper::returnJson($data);
-    }
 	
     /**
      * @OA\Get(
@@ -99,7 +53,8 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $matchList = SportsBasketballMatchModel::getMatchAllListV3($input);
+        $input['sport_id'] = 201;
+        $matchList = CmfGgscoreMatchModel::getMatchAllListV3($input);
 
         return Helper::returnJson($matchList);
     }
@@ -114,7 +69,8 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $matchList = SportsBasketballMatchModel::getMatchListByHot($input);
+        $input['sport_id'] = 201;
+        $matchList = CmfGgscoreMatchModel::getMatchListByHot($input);
 
         return Helper::returnJson($matchList);
     }
@@ -159,7 +115,8 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $matchList = SportsBasketballMatchModel::getMatchPLayingListV3($input);
+        $input['sport_id'] = 201;
+        $matchList = CmfGgscoreMatchModel::getMatchPLayingListV3($input);
 
         return Helper::returnJson($matchList);
     }
@@ -226,7 +183,8 @@ class BasketballV3Controller extends Controller
 
         $input = $request->input();
         if (empty($input['action']))$input['action'] = 0;
-        $matchList = SportsBasketballMatchModel::getMatchListByDateV3($input);
+        $input['sport_id'] = 201;
+        $matchList = CmfGgscoreMatchModel::getMatchListByDateV3($input);
 
         return Helper::returnJson($matchList);
     }
@@ -265,7 +223,8 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $matchList = SportsBasketballMatchModel::getMatch($input);
+        $input['sport_id'] = 201;
+        $matchList = CmfGgscoreMatchModel::getMatch($input);
 
         return Helper::returnJson($matchList);
     }
@@ -274,8 +233,9 @@ class BasketballV3Controller extends Controller
 
     public function getMatchSum(Request $request)
     {
-
-        $matchList = SportsBasketballMatchModel::getMatchSum();
+        $input = $request->input();
+        $input['sport_id'] = 201;
+        $matchList = CmfGgscoreMatchModel::getMatchSum();
 
         return Helper::returnJson($matchList);
     }

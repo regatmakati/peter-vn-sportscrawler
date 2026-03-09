@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\MessageException;
 use App\Helpers\Helper;
 use App\Models\CmfGgscoreMatchModel;
+use App\Models\Sports\SportsBasketballMatchModel;
 use Dingo\Api\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -53,8 +54,7 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $input['sport_id'] = 201;
-        $matchList = CmfGgscoreMatchModel::getMatchAllListV3($input);
+        $matchList = SportsBasketballMatchModel::getMatchAllListV3($input);
 
         return Helper::returnJson($matchList);
     }
@@ -69,8 +69,7 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $input['sport_id'] = 201;
-        $matchList = CmfGgscoreMatchModel::getMatchListByHot($input);
+        $matchList = SportsBasketballMatchModel::getMatchListByHot($input);
 
         return Helper::returnJson($matchList);
     }
@@ -115,8 +114,7 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $input['sport_id'] = 201;
-        $matchList = CmfGgscoreMatchModel::getMatchPLayingListV3($input);
+        $matchList = SportsBasketballMatchModel::getMatchPLayingListV3($input);
 
         return Helper::returnJson($matchList);
     }
@@ -183,8 +181,7 @@ class BasketballV3Controller extends Controller
 
         $input = $request->input();
         if (empty($input['action']))$input['action'] = 0;
-        $input['sport_id'] = 201;
-        $matchList = CmfGgscoreMatchModel::getMatchListByDateV3($input);
+        $matchList = SportsBasketballMatchModel::getMatchListByDateV3($input);
 
         return Helper::returnJson($matchList);
     }
@@ -223,8 +220,7 @@ class BasketballV3Controller extends Controller
         if ($validator->fails()) return Helper::returnEx(MessageException::CODE_FAIL, '请检查参数！');
 
         $input = $request->input();
-        $input['sport_id'] = 201;
-        $matchList = CmfGgscoreMatchModel::getMatch($input);
+        $matchList = SportsBasketballMatchModel::getMatch($input);
 
         return Helper::returnJson($matchList);
     }
@@ -233,9 +229,7 @@ class BasketballV3Controller extends Controller
 
     public function getMatchSum(Request $request)
     {
-        $input = $request->input();
-        $input['sport_id'] = 201;
-        $matchList = CmfGgscoreMatchModel::getMatchSum();
+        $matchList = SportsBasketballMatchModel::getMatchSum();
 
         return Helper::returnJson($matchList);
     }

@@ -212,7 +212,7 @@ class SportsBasketballMatchModel extends BaseModel
                 "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
                 [$nowDate, $endDate]
             )
-            ->where('live_url_1','<>',  '');
+            ->where('pushflag','=',  1);
         $matchList = [];
         $total = (clone $query)->count();
 
@@ -255,7 +255,7 @@ class SportsBasketballMatchModel extends BaseModel
 
         $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->where('is_hot','=',  1)
-            ->where('live_url_1','<>',  '')
+            ->where('pushflag','=',  1)
             ->whereRaw(
                 "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
                 [$nowDate, $endDate]
@@ -337,7 +337,7 @@ class SportsBasketballMatchModel extends BaseModel
         $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->whereIn( 'status_id', self::$playingStatusMap)
             ->where('match_time','>=',  $showStartTime)
-            ->where('live_url_1','<>',  '');
+            ->where('pushflag','=',  1);
         $matchList = [];
         $total = (clone $query)->count();
         $list = $query
@@ -375,7 +375,7 @@ class SportsBasketballMatchModel extends BaseModel
         if (!empty($matchList)) return $matchList;
         $model = self::with(['homeTeam', 'awayTeam', 'league'])
                 ->whereRaw("FROM_UNIXTIME(match_time, '%Y-%m-%d') = '{$input['date']}'")
-                ->where('live_url_1','<>',  '');
+                ->where('pushflag','=',  1);
                 if (isset($input['action'])) {
                     switch ($input['action']) {
                         case 1:     //赛程
@@ -407,7 +407,7 @@ class SportsBasketballMatchModel extends BaseModel
         if (!empty($matchList)) return $matchList;
         $model = self::with(['homeTeam', 'awayTeam', 'league', 'anchor'])
             ->whereRaw("FROM_UNIXTIME(match_time, '%Y-%m-%d') = '{$input['date']}'")
-            ->where('live_url_1','<>',  '');
+            ->where('pushflag','=',  1);
         if (isset($input['action'])) {
             switch ($input['action']) {
                 case 1:     //赛程
@@ -475,7 +475,7 @@ class SportsBasketballMatchModel extends BaseModel
         $todayTotal = self::whereRaw(
             "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
             [$nowDate, $t1Date]
-        )->where('live_url_1','<>',  '')->count();
+        )->where('pushflag','=',  1)->count();
 
 
         $match['todayTotal'] = $todayTotal;
@@ -483,7 +483,7 @@ class SportsBasketballMatchModel extends BaseModel
         $tomorrowTotal = self::whereRaw(
             "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
             [$t1Date, $t2Date]
-        )->where('live_url_1','<>',  '')->count();
+        )->where('pushflag','=',  1)->count();
 
 
         $match['tomorrowTotal'] = $tomorrowTotal;
@@ -493,7 +493,7 @@ class SportsBasketballMatchModel extends BaseModel
         $showStartTime = strtotime("-1 day");
         $playingTotal = self::whereIn( 'status_id', self::$playingStatusMap)
             ->where('match_time','>=',  $showStartTime)
-            ->where('live_url_1','<>',  '')
+            ->where('pushflag','=',  1)
             ->count();
 
         $match['playingTotal'] = $playingTotal;
@@ -503,7 +503,7 @@ class SportsBasketballMatchModel extends BaseModel
         $hotTotal = self::where('is_hot','=',  1)->whereRaw(
             "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
             [$nowDate, $t2Date]
-        )->where('live_url_1','<>',  '')->count();
+        )->where('pushflag','=',  1)->count();
 
         $match['hotTotal'] = $hotTotal;
 

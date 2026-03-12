@@ -207,12 +207,11 @@ class SportsFootballMatchModel extends BaseModel
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getFootballMatchAllListV3($input['page'])));
         if (!empty($matchList)) return $matchList;
-        $nowDate = date("Y-m-d");
-        $endDate = date('Y-m-d', strtotime("+2 day"));
-
+        $nowDate = strtotime(date("Y-m-d"));
+        $endDate = $nowDate+48*3600-1;
         $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->whereRaw(
-                "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
+                "match_time BETWEEN ? AND ?",
                 [$nowDate, $endDate]
             )->where('pushflag','=',  1);
         $matchList = [];
@@ -251,14 +250,14 @@ class SportsFootballMatchModel extends BaseModel
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getFootballMatchListByHotV3($input['page'])));
         if (!empty($matchList)) return $matchList;
-        $nowDate = date("Y-m-d");
-        $endDate = date('Y-m-d', strtotime("+2 day"));
+        $nowDate = strtotime(date("Y-m-d"));
+        $endDate = $nowDate+48*3600-1;
 
         $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->where('is_hot','=',  1)
             ->where('pushflag','=',  1)
             ->whereRaw(
-                "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
+                "match_time BETWEEN ? AND ?",
                 [$nowDate, $endDate]
             );
         $matchList = [];
@@ -337,8 +336,7 @@ class SportsFootballMatchModel extends BaseModel
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getFootballMatchPlayingListV3($input['page'])));
         if (!empty($matchList)) return $matchList;
-        $showStartTime = strtotime("-1 day");
-
+        $showStartTime = strtotime(date("Y-m-d"));
         $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
             ->whereIn( 'status_id', self::$playingStatusMap)
             ->where('match_time','>=',  $showStartTime)
@@ -487,29 +485,28 @@ class SportsFootballMatchModel extends BaseModel
     {
         $match = json_decode(Redis::get('getFootballMatchSum'));
         if (!empty($match)) return $match;
-        $nowDate = date("Y-m-d");
-        $t1Date = date('Y-m-d', strtotime("+1 day"));
-        $t2Date = date('Y-m-d', strtotime("+2 day"));
+        $nowDate = strtotime(date("Y-m-d"));
+        $t1Date = $nowDate+24*3600;
+        $t2Date = $nowDate+48*3600;
 
         $todayTotal = self::whereRaw(
-                "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
-                [$nowDate, $t1Date]
+                "match_time BETWEEN ? AND ?",
+                [$nowDate, ($t1Date-1)]
             )->where('pushflag','=',  1)->count();
 
         $match['todayTotal'] = $todayTotal;
 
         $tomorrowTotal = self::whereRaw(
-            "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
-            [$t1Date, $t2Date]
+            "match_time BETWEEN ? AND ?",
+            [$t1Date, ($t2Date-1)]
         )->where('pushflag','=',  1)->count();
 
         $match['tomorrowTotal'] = $tomorrowTotal;
         $match['allTotal'] = $todayTotal+$tomorrowTotal;
 
 
-        $showStartTime = strtotime("-1 day");
         $playingTotal = self::whereIn( 'status_id', self::$playingStatusMap)
-            ->where('match_time','>=',  $showStartTime)
+            ->where('match_time','>=',  $nowDate)
             ->where('pushflag','=',  1)->count();
 
         $match['playingTotal'] = $playingTotal;
@@ -517,8 +514,8 @@ class SportsFootballMatchModel extends BaseModel
 
 
         $hotTotal = self::where('is_hot','=',  1)->whereRaw(
-            "FROM_UNIXTIME(match_time, '%Y-%m-%d') BETWEEN ? AND ?",
-            [$nowDate, $t2Date]
+            "match_time BETWEEN ? AND ?",
+            [$nowDate, ($t2Date-1)]
         )->where('pushflag','=',  1)->count();
 
         $match['hotTotal'] = $hotTotal;

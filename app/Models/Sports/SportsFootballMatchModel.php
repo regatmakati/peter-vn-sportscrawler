@@ -233,7 +233,9 @@ class SportsFootballMatchModel extends BaseModel
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
-                        $d[] = $anchorList[$uid];
+                        if(!empty($anchorList)){
+                            $d[] = $anchorList[$uid] ?? [];
+                        }
                     }
                 }
                 $v['lives'] = $d;
@@ -279,7 +281,9 @@ class SportsFootballMatchModel extends BaseModel
 
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
-                        $d[] = $anchorList[$uid];
+                        if(!empty($anchorList)){
+                            $d[] = $anchorList[$uid] ?? [];
+                        }
                     }
                 }
                 $v['lives'] = $d;
@@ -360,7 +364,9 @@ class SportsFootballMatchModel extends BaseModel
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
-                        $d[] = $anchorList[$uid];
+                        if(!empty($anchorList)){
+                            $d[] = $anchorList[$uid] ?? [];
+                        }
                     }
                 }
                 $v['lives'] = $d;
@@ -445,7 +451,10 @@ class SportsFootballMatchModel extends BaseModel
                 if($v['anchor'] && $v['anchor']['user_ids'] != ''){
                     $userIds = explode(',', $v['anchor']['user_ids']);
                     foreach ($userIds as $uid){
-                        $d[] = $anchorList[$uid];
+                        if(!empty($anchorList)){
+                            $d[] = $anchorList[$uid] ?? [];
+                        }
+
                     }
                 }
                 $v['lives'] = $d;

@@ -46,7 +46,7 @@ class CmfAnchorAuth extends BaseModel
 
     public static function getAllAnchor()
     {
-        $list = json_decode(Redis::get('getAllAnchor'));
+        $list = json_decode(Redis::get('getAllAnchor'), true);
         if (!empty($list)) return $list;
         $arr = self::with(['user','live'])->where('status',1)->select('uid')->get()->toArray();
         if($arr){

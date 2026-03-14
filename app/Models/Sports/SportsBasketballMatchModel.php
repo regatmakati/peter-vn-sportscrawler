@@ -342,7 +342,8 @@ class SportsBasketballMatchModel extends BaseModel
             ->orderBy('status_id', 'ASC')
             ->offset(($input['page'] - 1) * 10)
             ->limit(10)
-            ->get();
+            ->get()
+            ->toArray();
 
         $matchList['total'] = $total;
         $matchList['list'] = [];
@@ -425,7 +426,8 @@ class SportsBasketballMatchModel extends BaseModel
             ->orderBy('id', 'ASC')
             ->offset(($input['page'] - 1) * 10)
             ->limit(10)
-            ->get();
+            ->get()
+            ->toArray();
         $matchList['list'] = [];
         if (count($list) > 0) {
 

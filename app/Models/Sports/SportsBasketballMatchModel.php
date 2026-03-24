@@ -111,10 +111,7 @@ class SportsBasketballMatchModel extends BaseModel
     }
 
 
-    public function anchor()
-    {
-        return $this->hasOne(SportsBasketballMatchAnchorModel::class, 'match_id', 'id');
-    }
+
 
     public function getMatchDateAttribute()
     {
@@ -206,17 +203,19 @@ class SportsBasketballMatchModel extends BaseModel
         if (!empty($matchList)) return $matchList;
         $nowDate = strtotime(date("Y-m-d"));
         $endDate = $nowDate+48*3600-1;
-        $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
+        $query = self::from('sports_basketball_match as m')
+            ->with(['homeTeam', 'awayTeam', 'league'])
+            ->join('sports_3day_match as d', 'm.id', '=', 'd.match_id')
             ->whereRaw(
-                "match_time BETWEEN ? AND ?",
+                "d.match_time BETWEEN ? AND ?",
                 [$nowDate, $endDate]
-            )->where('pushflag','=',  1);
+            )->where('d.sport_id','=',  2)
+            ->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
         $matchList = [];
         $total = (clone $query)->count();
 
         $list = $query
-            ->orderBy('match_time', 'ASC')
-            ->orderBy('status_id', 'ASC')
+            ->orderBy('d.match_time', 'ASC')
             ->offset(($input['page'] - 1) * 10)
             ->limit(10)
             ->get();
@@ -227,15 +226,20 @@ class SportsBasketballMatchModel extends BaseModel
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
                 $d = [];
-                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $userIds = explode(',', $v['anchor']['user_ids']);
+                $a = null;
+                if($v['user_ids'] != ''){
+                    $userIds = explode(',', $v['user_ids']);
                     foreach ($userIds as $uid){
                         if(!empty($anchorList)){
                             $d[] = $anchorList[$uid] ?? [];
                         }
                     }
+                    $a['id'] = $v['anchor_id'];
+                    $a['match_id'] = $v['id'];
+                    $a['user_ids'] = $v['user_ids'];
                 }
                 $v['lives'] = $d;
+                $v['anchor'] = $a;
             }
             
             $matchList['list'] = $list;
@@ -253,19 +257,20 @@ class SportsBasketballMatchModel extends BaseModel
         $nowDate = strtotime(date("Y-m-d"));
         $endDate = $nowDate+48*3600-1;
 
-        $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
-            ->where('is_hot','=',  1)
-            ->where('pushflag','=',  1)
+        $query = self::from('sports_basketball_match as m')
+            ->with(['homeTeam', 'awayTeam', 'league'])
+            ->join('sports_3day_match as d', 'm.id', '=', 'd.match_id')
+            ->where('d.is_hot','=',  1)
+            ->where('d.sport_id','=',  2)
             ->whereRaw(
-                "match_time BETWEEN ? AND ?",
+                "d.match_time BETWEEN ? AND ?",
                 [$nowDate, $endDate]
-            );
+            )->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
         $matchList = [];
         $total = (clone $query)->count();
 
         $list = $query
-            ->orderBy('match_time', 'ASC')
-            ->orderBy('status_id', 'ASC')
+            ->orderBy('d.match_time', 'ASC')
             ->offset(($input['page'] - 1) * 10)
             ->limit(10)
             ->get();
@@ -276,15 +281,21 @@ class SportsBasketballMatchModel extends BaseModel
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
                 $d = [];
-                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $userIds = explode(',', $v['anchor']['user_ids']);
+                $a = null;
+                if($v['user_ids'] != ''){
+                    $userIds = explode(',', $v['user_ids']);
                     foreach ($userIds as $uid){
                         if(!empty($anchorList)){
                             $d[] = $anchorList[$uid] ?? [];
                         }
                     }
+
+                    $a['id'] = $v['anchor_id'];
+                    $a['match_id'] = $v['id'];
+                    $a['user_ids'] = $v['user_ids'];
                 }
                 $v['lives'] = $d;
+                $v['anchor'] = $a;
             }
 
             $matchList['list'] = $list;
@@ -335,15 +346,17 @@ class SportsBasketballMatchModel extends BaseModel
         $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchPlayingListV3($input['page'])));
         if (!empty($matchList)) return $matchList;
         $showStartTime = strtotime(date("Y-m-d"));
-        $query = self::with(['homeTeam', 'awayTeam', 'league','anchor'])
-            ->whereIn( 'status_id', self::$playingStatusMap)
-            ->where('match_time','>=',  $showStartTime)
-            ->where('pushflag','=',  1);
+        $query = self::from('sports_basketball_match as m')
+            ->with(['homeTeam', 'awayTeam', 'league'])
+            ->join('sports_3day_match as d', 'm.id', '=', 'd.match_id')
+            ->whereIn( 'd.match_status', self::$playingStatusMap)
+            ->where('d.match_time','>=',  $showStartTime)
+            ->where('d.sport_id','=',  2)
+            ->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
         $matchList = [];
         $total = (clone $query)->count();
         $list = $query
-            ->orderBy('match_time', 'ASC')
-            ->orderBy('status_id', 'ASC')
+            ->orderBy('d.match_time', 'ASC')
             ->offset(($input['page'] - 1) * 10)
             ->limit(10)
             ->get()
@@ -356,15 +369,22 @@ class SportsBasketballMatchModel extends BaseModel
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
                 $d = [];
-                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $userIds = explode(',', $v['anchor']['user_ids']);
+                $a = null;
+                if($v['user_ids'] != ''){
+                    $userIds = explode(',', $v['user_ids']);
                     foreach ($userIds as $uid){
                         if(!empty($anchorList)){
                             $d[] = $anchorList[$uid] ?? [];
                         }
                     }
+
+                    $a['id'] = $v['anchor_id'];
+                    $a['match_id'] = $v['id'];
+                    $a['user_ids'] = $v['user_ids'];
+
                 }
                 $v['lives'] = $d;
+                $v['anchor'] = $a;
             }
 
             $matchList['list'] = $list;
@@ -409,16 +429,19 @@ class SportsBasketballMatchModel extends BaseModel
     {
         $matchList = json_decode(Redis::get(RedisKeyMap::getBasketballMatchListByDateV3($input['page'], $input['date'], $input['action'])));
         if (!empty($matchList)) return $matchList;
-        $model = self::with(['homeTeam', 'awayTeam', 'league', 'anchor'])
-            ->whereRaw("FROM_UNIXTIME(match_time, '%Y-%m-%d') = '{$input['date']}'")
-            ->where('pushflag','=',  1);
+        $model = self::from('sports_basketball_match as m')
+            ->with(['homeTeam', 'awayTeam', 'league'])
+            ->join('sports_3day_match as d', 'm.id', '=', 'd.match_id')
+            ->whereRaw("FROM_UNIXTIME(d.match_time, '%Y-%m-%d') = '{$input['date']}'")
+            ->where('d.sport_id','=',  2)
+            ->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
         if (isset($input['action'])) {
             switch ($input['action']) {
                 case 1:     //赛程
-                    $model->whereIn('status_id', self::$notStartStatusMap);
+                    $model->whereIn('m.status_id', self::$notStartStatusMap);
                     break;
                 case 2:     //赛果
-                    $model->where(['status_id' => self::STATUS_FINISH]);
+                    $model->where(['m.status_id' => self::STATUS_FINISH]);
                     break;
             }
         }
@@ -427,8 +450,8 @@ class SportsBasketballMatchModel extends BaseModel
         $total =  (clone $model)->count();
         $matchList['total'] = $total;
 
-        $list = $model->orderBy('status_id', 'ASC')
-            ->orderBy('match_time', 'ASC')
+        $list = $model->orderBy('m.status_id', 'ASC')
+            ->orderBy('d.match_time', 'ASC')
             ->orderBy('id', 'ASC')
             ->offset(($input['page'] - 1) * 10)
             ->limit(10)
@@ -440,15 +463,22 @@ class SportsBasketballMatchModel extends BaseModel
             $anchorList = CmfAnchorAuth::getAllAnchor();
             foreach ($list as &$v){
                 $d = [];
-                if($v['anchor'] && $v['anchor']['user_ids'] != ''){
-                    $userIds = explode(',', $v['anchor']['user_ids']);
+                $a = null;
+                if($v['user_ids'] != ''){
+                    $userIds = explode(',', $v['user_ids']);
                     foreach ($userIds as $uid){
                         if(!empty($anchorList)){
                             $d[] = $anchorList[$uid] ?? [];
                         }
+
                     }
+                    $a['id'] = $v['anchor_id'];
+                    $a['match_id'] = $v['id'];
+                    $a['user_ids'] = $v['user_ids'];
+
                 }
                 $v['lives'] = $d;
+                $v['anchor'] = $a;
             }
 
             $matchList['list'] = $list;
@@ -479,34 +509,34 @@ class SportsBasketballMatchModel extends BaseModel
         $t1Date = $nowDate+24*3600;
         $t2Date = $nowDate+48*3600;
 
-        $todayTotal = self::whereRaw(
+        $todayTotal = Sports3DayMatchModel::whereRaw(
             "match_time BETWEEN ? AND ?",
             [$nowDate, ($t1Date-1)]
-        )->where('pushflag','=',  1)->count();
+        )->where('sport_id','=',  2)->count();
 
         $match['todayTotal'] = $todayTotal;
 
-        $tomorrowTotal = self::whereRaw(
+        $tomorrowTotal = Sports3DayMatchModel::whereRaw(
             "match_time BETWEEN ? AND ?",
             [$t1Date, ($t2Date-1)]
-        )->where('pushflag','=',  1)->count();
+        )->where('sport_id','=',  2)->count();
 
         $match['tomorrowTotal'] = $tomorrowTotal;
         $match['allTotal'] = $todayTotal+$tomorrowTotal;
 
 
-        $playingTotal = self::whereIn( 'status_id', self::$playingStatusMap)
+        $playingTotal = Sports3DayMatchModel::whereIn( 'match_status', self::$playingStatusMap)
             ->where('match_time','>=',  $nowDate)
-            ->where('pushflag','=',  1)->count();
+            ->where('sport_id','=',  2)->count();
 
         $match['playingTotal'] = $playingTotal;
 
 
 
-        $hotTotal = self::where('is_hot','=',  1)->whereRaw(
+        $hotTotal = Sports3DayMatchModel::where('is_hot','=',  1)->whereRaw(
             "match_time BETWEEN ? AND ?",
             [$nowDate, ($t2Date-1)]
-        )->where('pushflag','=',  1)->count();
+        )->where('sport_id','=',  2)->count();
 
         $match['hotTotal'] = $hotTotal;
 

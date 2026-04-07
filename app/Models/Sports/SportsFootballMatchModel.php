@@ -230,7 +230,7 @@ class SportsFootballMatchModel extends BaseModel
             foreach ($list as &$v){
                 $d = [];
                 $a = null;
-                if(['user_ids'] != ''){
+                if($v['user_ids'] != ''){
                     $userIds = explode(',', $v['user_ids']);
                     foreach ($userIds as $uid){
                         if(!empty($anchorList)){

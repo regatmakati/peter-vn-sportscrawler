@@ -58,7 +58,7 @@ $params['live_url']['prefix'] = "rtmp://zbpush.khpnq.cn";
 /**
  * 华图片地址
  */
-$params['domain']['image'] = "https://live-peter.obs.ap-southeast-1.myhuaweicloud.com";
+$params['domain']['image'] = "https://live-peter-ii.obs.ap-southeast-1.myhuaweicloud.com";
 
 /**
  * 视频缓存服务器地址

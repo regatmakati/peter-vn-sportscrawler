@@ -210,7 +210,7 @@ class SportsBasketballMatchModel extends BaseModel
                 "d.match_time BETWEEN ? AND ?",
                 [$nowDate, $endDate]
             )->where('d.sport_id','=',  2)
-            ->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
+            ->select(['m.*','d.user_ids','d.match_status as status_id','d.match_time','d.is_hot','d.id as anchor_id']);
         $matchList = [];
         $total = (clone $query)->count();
 
@@ -265,7 +265,7 @@ class SportsBasketballMatchModel extends BaseModel
             ->whereRaw(
                 "d.match_time BETWEEN ? AND ?",
                 [$nowDate, $endDate]
-            )->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
+            )->select(['m.*','d.user_ids','d.match_status as status_id','d.match_time','d.is_hot','d.id as anchor_id']);
         $matchList = [];
         $total = (clone $query)->count();
 
@@ -352,7 +352,7 @@ class SportsBasketballMatchModel extends BaseModel
             ->whereIn( 'd.match_status', self::$playingStatusMap)
             ->where('d.match_time','>=',  $showStartTime)
             ->where('d.sport_id','=',  2)
-            ->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
+            ->select(['m.*','d.user_ids','d.match_status as status_id','d.match_time','d.is_hot','d.id as anchor_id']);
         $matchList = [];
         $total = (clone $query)->count();
         $list = $query
@@ -434,7 +434,7 @@ class SportsBasketballMatchModel extends BaseModel
             ->join('sports_3day_match as d', 'm.id', '=', 'd.match_id')
             ->whereRaw("FROM_UNIXTIME(d.match_time, '%Y-%m-%d') = '{$input['date']}'")
             ->where('d.sport_id','=',  2)
-            ->select(['m.*','d.user_ids','d.is_hot','d.id as anchor_id']);
+            ->select(['m.*','d.user_ids','d.match_status as status_id','d.match_time','d.is_hot','d.id as anchor_id']);
         if (isset($input['action'])) {
             switch ($input['action']) {
                 case 1:     //赛程

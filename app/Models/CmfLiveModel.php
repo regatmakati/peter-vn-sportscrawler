@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redis;
 
 class CmfLiveModel extends BaseModel
 {
-    protected $connection = 'mysql'; // 第二个数据库
     protected $table = 'cmf_live';
     protected $primaryKey = 'uid';
     public $timestamps = false;

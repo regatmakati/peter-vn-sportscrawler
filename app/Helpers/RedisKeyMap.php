@@ -97,19 +97,9 @@ class RedisKeyMap
         return "football_match_all_list_v2_{$page}";
     }
 
-    public static function getFootballMatchAllListV3($page)
-    {
-        return "football_match_all_list_v3_{$page}";
-    }
-
     public static function getBasketballMatchAllListV2($page)
     {
         return "basketball_match_all_list_v2_{$page}";
-    }
-
-    public static function getBasketballMatchAllListV3($page)
-    {
-        return "basketball_match_all_list_v3_{$page}";
     }
 
     public static function getFootballMatchPlayingListV2($page)
@@ -117,56 +107,19 @@ class RedisKeyMap
         return "football_match_playing_list_v2_{$page}";
     }
 
-    public static function getFootballMatchPlayingListV3($page)
-    {
-        return "football_match_playing_list_v3_{$page}";
-    }
-
     public static function getBasketballMatchPlayingListV2($page)
     {
         return "basketball_match_playing_list_v2_{$page}";
     }
-
-    public static function getBasketballMatchPlayingListV3($page)
-    {
-        return "basketball_match_playing_list_v3_{$page}";
-    }
-
 
     public static function getFootballMatchListByDateV2($page, $date, $action)
     {
         return "football_match_schedule_list_v2_{$page}_{$date}_{$action}";
     }
 
-
-    public static function getFootballMatchListByDateV3($page, $date, $action)
-    {
-        return "football_match_schedule_list_v3_{$page}_{$date}_{$action}";
-    }
-
-
-
-    public static function getFootballMatchListByHotV3($page)
-    {
-        return "football_match_schedule_hot_list_v3_{$page}";
-    }
-
-
-    public static function getBasketballMatchListByHotV3($page)
-    {
-        return "basketball_match_schedule_hot_list_v3_{$page}";
-    }
-
-
     public static function getBasketballMatchListByDateV2($page, $date, $action)
     {
         return "basketball_match_schedule_list_v2_{$page}_{$date}_{$action}";
-    }
-
-
-    public static function getBasketballMatchListByDateV3($page, $date, $action)
-    {
-        return "basketball_match_schedule_list_v3_{$page}_{$date}_{$action}";
     }
 
     public static function getFootballMatchV2($matchId)
